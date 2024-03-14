@@ -1,14 +1,13 @@
 const response = (status_code, datas, message, res) => {
     res.status(status_code).json({
         payload: {
-            status_code: status_code,
-            datas: datas,
+            datas,
+            message,
         },
-        message: message,
-        pagination: {
+        metadata: {
             prev: "",
             next: "",
-            max: "",
+            current: "",
         },
     });
 };
