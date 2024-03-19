@@ -1,3 +1,3 @@
 # node_js_api
 
-Make API with Express.js
+Make API with node.js
