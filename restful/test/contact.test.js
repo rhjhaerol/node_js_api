@@ -90,3 +90,68 @@ describe("GET /api/contacts/:contactId", function () {
         expect(result.status).toBe(404);
     });
 });
+
+describe("UPDATE /api/contacts/:contactId", function () {
+    beforeEach(async () => {
+        await createTestUser();
+        await createTestContact();
+    });
+
+    afterEach(async () => {
+        await removeAllTestContacts();
+        await removeTestUser();
+    });
+
+    it("should can update existing contact", async () => {
+        const testContact = await getTestContact();
+
+        const result = await supertest(web)
+            .put("/api/contacts/" + testContact.id)
+            .set("Authorization", "test")
+            .send({
+                first_name: "Rahaji",
+                last_name: "Jhaerol",
+                email: "rhjhaerol@test.com",
+                phone: "08987654321",
+            });
+
+        expect(result.status).toBe(200);
+        expect(result.body.data.id).toBe(testContact.id);
+        expect(result.body.data.first_name).toBe("Rahaji");
+        expect(result.body.data.last_name).toBe("Jhaerol");
+        expect(result.body.data.email).toBe("rhjhaerol@test.com");
+        expect(result.body.data.phone).toBe("08987654321");
+    });
+
+    it("should reject if request is invalid", async () => {
+        const testContact = await getTestContact();
+
+        const result = await supertest(web)
+            .put("/api/contacts/" + testContact.id)
+            .set("Authorization", "test")
+            .send({
+                first_name: "",
+                last_name: "",
+                email: "rhjhaerol",
+                phone: "",
+            });
+
+        expect(result.status).toBe(400);
+    });
+
+    it("should reject if contact is not found", async () => {
+        const testContact = await getTestContact();
+
+        const result = await supertest(web)
+            .put("/api/contacts/" + (testContact.id + 1))
+            .set("Authorization", "test")
+            .send({
+                first_name: "Rahaji",
+                last_name: "Jhaerol",
+                email: "rhjhaerol@test.com",
+                phone: "08987654321",
+            });
+
+        expect(result.status).toBe(404);
+    });
+});
