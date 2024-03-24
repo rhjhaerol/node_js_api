@@ -2,6 +2,7 @@ import { validate } from "../validation/validation.js";
 import {
     createContactValidation,
     getContactValidation,
+    searchContactValidation,
     updateContactValidation,
 } from "../validation/contact-validation.js";
 import { prismaClient } from "../application/database.js";
@@ -102,9 +103,75 @@ const remove = async (user, contactId) => {
     });
 };
 
+const search = async (user, request) => {
+    request = await validate(searchContactValidation, request);
+
+    // 1 ((page - 1) * size) = 0
+    // 2 ((page - 2) * size) = 10
+    const skip = (request.page - 1) * request.size;
+
+    const filter = [];
+    filter.push({
+        username: user.username,
+    });
+
+    if (request.name) {
+        filter.push({
+            OR: [
+                {
+                    first_name: {
+                        contains: request.name,
+                    },
+                    last_name: {
+                        contains: request.name,
+                    },
+                },
+            ],
+        });
+    }
+    if (request.email) {
+        filter.push({
+            email: {
+                contains: request.email,
+            },
+        });
+    }
+    if (request.phone) {
+        filter.push({
+            phone: {
+                contains: request.phone,
+            },
+        });
+    }
+
+    const contacts = await prismaClient.contact.findMany({
+        where: {
+            AND: filter,
+        },
+        take: request.size,
+        skip: skip,
+    });
+
+    const totalItems = await prismaClient.contact.count({
+        where: {
+            AND: filter,
+        },
+    });
+
+    return {
+        data: contacts,
+        paging: {
+            page: request.page,
+            total_item: totalItems,
+            total_page: Math.ceil(totalItems / request.size),
+        },
+    };
+};
+
 export default {
     create,
     get,
     update,
     remove,
+    search,
 };
