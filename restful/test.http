@@ -1,0 +1,123 @@
+POST http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username" : "rhjhaerol",
+  "password" : "rahasia",
+  "name" : "M Rahaji"
+}
+
+###
+
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "username" : "rhjhaerol",
+  "password" : "rahasia"
+}
+
+###
+
+GET http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: 8ac46183-12f1-4de4-b475-61aa2eae2401
+
+###
+
+PATCH http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: 8ac46183-12f1-4de4-b475-61aa2eae2401
+
+{
+  "name" : "Muhammad Rahaji Jhaerol"
+}
+
+###
+
+DELETE http://localhost:3000/api/users/logout
+Content-Type: application/json
+Accept: application/json
+Authorization: 8ac46183-12f1-4de4-b475-61aa2eae2401
+
+###
+
+POST http://localhost:3000/api/contacts
+Content-Type: application/json
+Accept: application/json
+Authorization: dd95ce63-36e0-4391-8862-9e33ac2b2b44
+
+{
+  "first_name" : "M Rahaji",
+  "last_name" : "Jhaerol",
+  "email" : "aji@ggwp.com",
+  "phone" : "009988776655"
+}
+
+###
+
+GET http://localhost:3000/api/contacts
+Content-Type: application/json
+Accept: application/json
+Authorization: 3ce58c8e-b4c0-4381-8e35-615667826f67
+
+###
+
+GET http://localhost:3000/api/contacts/1686
+Content-Type: application/json
+Accept: application/json
+Authorization: 3ce58c8e-b4c0-4381-8e35-615667826f67
+
+### Update
+
+PUT http://localhost:3000/api/contacts/1686
+Content-Type: application/json
+Accept: application/json
+Authorization: 3ce58c8e-b4c0-4381-8e35-615667826f67
+
+{
+  "first_name": "Dian",
+  "last_name": "Maharani",
+  "email": "dian@ggwp.com",
+  "phone": "1122334455"
+}
+
+### Delete Contact
+
+DELETE http://localhost:3000/api/contacts/1686
+Content-Type: application/json
+Accept: application/json
+Authorization: 3ce58c8e-b4c0-4381-8e35-615667826f67
+
+### Create Address
+
+POST http://localhost:3000/api/contacts/1687/addresses
+Content-Type: application/json
+Accept: application/json
+Authorization: dd95ce63-36e0-4391-8862-9e33ac2b2b44
+
+{
+  "street" : "Kenanga",
+  "city" : "Solo",
+  "province" : "Jawa Tengah",
+  "country" : "Indonesia",
+  "postal_code" : "87642"
+}
+
+### List Addresses
+
+GET http://localhost:3000/api/contacts/1687/addresses
+Content-Type: application/json
+Accept: application/json
+Authorization: dd95ce63-36e0-4391-8862-9e33ac2b2b44
+
+### Get Address
+
+GET http://localhost:3000/api/contacts/1687/addresses/106
+Content-Type: application/json
+Accept: application/json
+Authorization: dd95ce63-36e0-4391-8862-9e33ac2b2b44
